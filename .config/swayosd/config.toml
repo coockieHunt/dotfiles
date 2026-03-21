@@ -1,0 +1,6 @@
+[server]
+show_percentage = true
+top_margin = 0.86
+min_brightness = 5
+
+[client]
