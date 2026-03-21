@@ -1,0 +1,75 @@
+(defpoll weather :interval "20m" "bash /home/jonathan/.config/eww/scripts/panel-data.sh weather")
+(defpoll cpu :interval "4s" "bash /home/jonathan/.config/eww/scripts/panel-data.sh cpu")
+(defpoll ram :interval "6s" "bash /home/jonathan/.config/eww/scripts/panel-data.sh ram")
+(defpoll proc :interval "10s" "bash /home/jonathan/.config/eww/scripts/panel-data.sh proc")
+(defpoll temp :interval "10s" "bash /home/jonathan/.config/eww/scripts/panel-data.sh temp")
+(defpoll ff_os :interval "2h" "bash /home/jonathan/.config/eww/scripts/panel-data.sh os")
+(defpoll ff_kernel :interval "2h" "bash /home/jonathan/.config/eww/scripts/panel-data.sh kernel")
+(defpoll ff_uptime :interval "30s" "bash /home/jonathan/.config/eww/scripts/panel-data.sh uptime")
+(defpoll ff_shell :interval "30m" "bash /home/jonathan/.config/eww/scripts/panel-data.sh shell")
+(defpoll ff_host :interval "30m" "bash /home/jonathan/.config/eww/scripts/panel-data.sh host")
+(defpoll ff_cpu_model :interval "2h" "bash /home/jonathan/.config/eww/scripts/panel-data.sh cpu_model")
+(defpoll ff_ram_total :interval "2h" "bash /home/jonathan/.config/eww/scripts/panel-data.sh ram_total")
+(defpoll ff_gpu :interval "2h" "bash /home/jonathan/.config/eww/scripts/panel-data.sh gpu")
+(defpoll ff_disk :interval "2h" "bash /home/jonathan/.config/eww/scripts/panel-data.sh disk")
+
+(defwindow dashboard
+  :monitor 0
+  :stacking "bottom"
+  :windowtype "desktop"
+  :wm-ignore true
+  :exclusive false
+  :geometry (geometry :x "0.6%" :y "1.4%" :width "42%" :height "220px" :anchor "top left")
+  (dashboard_layout))
+
+(defwindow dashboard_fastfetch
+  :monitor 0
+  :stacking "bottom"
+  :windowtype "desktop"
+  :wm-ignore true
+  :exclusive false
+  :geometry (geometry :x "0.8%" :y "1.4%" :width "31%" :height "220px" :anchor "top right")
+  (fastfetch_layout))
+
+(defwidget stat_card [label value]
+  (box :class "stat-card" :orientation "v" :space-evenly false
+    (label :class "stat-label" :text label)
+    (label :class "stat-value" :text value)))
+
+(defwidget ff_line [key value]
+  (box :class "ff-line" :orientation "h" :space-evenly false :halign "fill" :hexpand true
+    (box :class "ff-key-box" :width 74 :halign "start" :hexpand false
+      (label :class "ff-key" :text key :xalign 0))
+    (box :class "ff-value-box" :halign "fill" :hexpand true
+      (label :class "ff-value" :text value :xalign 0 :hexpand true))))
+
+(defwidget fastfetch_layout []
+  (box :class "fast-box" :orientation "v" :space-evenly false :valign "start" :halign "fill"
+    (label :class "ff-title" :text "SYSTEM INFO")
+    (ff_line :key "Host" :value ff_host)
+    (ff_line :key "OS" :value ff_os)
+    (ff_line :key "Kernel" :value ff_kernel)
+    (ff_line :key "Uptime" :value ff_uptime)
+    (ff_line :key "Shell" :value ff_shell)
+    (ff_line :key "CPU" :value ff_cpu_model)
+    (ff_line :key "RAM" :value ff_ram_total)
+    (ff_line :key "GPU" :value ff_gpu)
+    (ff_line :key "Disk" :value ff_disk)))
+
+(defwidget dashboard_layout []
+  (box :class "main-box" :orientation "v" :space-evenly false :valign "start" :halign "start"
+    (box :class "header-row" :orientation "h" :space-evenly false :halign "fill" :hexpand true
+      (box :class "clock-block" :orientation "v" :space-evenly false :halign "start" :hexpand true
+        (label :class "time" :text {formattime(EWW_TIME, "%H:%M")})
+        (label :class "date" :text {formattime(EWW_TIME, "%A %d %B %Y")}))
+      (label :class "weather" :text weather :halign "end" :xalign 1))
+
+    (box :class "stats-row" :orientation "h" :space-evenly false :spacing 10 :halign "start"
+      (stat_card :label "CPU" :value cpu)
+      (stat_card :label "RAM" :value ram)
+      (stat_card :label "PROC" :value proc)
+      (stat_card :label "TEMP" :value temp))
+
+    (box :class "footer-row" :orientation "h" :space-evenly false :spacing 8 :halign "start"
+      (label :class "bat-box" :text {"BAT " + EWW_BATTERY["BAT0"].capacity + "%"})
+      (label :class "welcome" :text "Session ready"))))
