@@ -1,0 +1,90 @@
+{
+  "positionX": "right",
+  "positionY": "top",
+  "layer": "overlay",
+  "layer-shell": true,
+  "cssPriority": "user",
+  "control-center-layer": "overlay",
+  "control-center-width": 380,
+  "control-center-height": 560,
+  "notification-window-width": 380,
+  "timeout": 8,
+  "timeout-low": 4,
+  "timeout-critical": 0,
+  "fit-to-screen": true,
+  "relative-timestamps": true,
+  "keyboard-shortcuts": true,
+  "image-visibility": "when-available",
+  "transition-time": 140,
+  "hide-on-clear": true,
+  "hide-on-action": true,
+  "notification-grouping": true,
+  "widgets": [
+    "title",
+    "dnd",
+    "buttons-grid",
+    "mpris",
+    "notifications"
+  ],
+  "widget-config": {
+    "title": {
+      "text": "Notifications",
+      "clear-all-button": true,
+      "button-text": "Effacer"
+    },
+    "dnd": {
+      "text": "Do Not Disturb"
+    },
+    "mpris": {
+      "autohide": false,
+      "show-album-art": "when-available"
+    },
+    "notifications": {
+      "vexpand": true
+    },
+    "buttons-grid": {
+      "buttons-per-row": 3,
+      "actions": [
+        {
+          "label": "",
+          "command": "~/.config/swaync/actions.sh audio"
+        },
+        {
+          "label": "",
+          "command": "~/.config/swaync/actions.sh mute"
+        },
+        {
+          "label": "",
+          "type": "toggle",
+          "active": true,
+          "command": "~/.config/swaync/actions.sh wifi-toggle",
+          "update-command": "sh -c '[[ $(nmcli radio wifi) == enabled ]] && echo true || echo false'"
+        },
+        {
+          "label": "",
+          "command": "~/.config/swaync/actions.sh wifi"
+        },
+        {
+          "label": "",
+          "command": "~/.config/swaync/actions.sh bluetooth"
+        },
+        {
+          "label": "",
+          "command": "~/.config/swaync/actions.sh lock"
+        },
+        {
+          "label": "󰍃",
+          "command": "~/.config/swaync/actions.sh logout"
+        },
+        {
+          "label": "",
+          "command": "~/.config/swaync/actions.sh reboot"
+        },
+        {
+          "label": "",
+          "command": "~/.config/swaync/actions.sh shutdown"
+        }
+      ]
+    }
+  }
+}
