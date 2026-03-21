@@ -1,7 +1,8 @@
 # 🌿 dotfiles — my Hyprland config
 
 > **EN** | [FR](#-dotfiles--ma-config-hyprland)
-
+## Screen
+  ![screenshot](screen_1)
 ## About
 
 This is my personal Hyprland config. I'm sharing it in case it's useful to someone, but keep in mind it's built around my own setup so it probably won't work perfectly out of the box on yours.
