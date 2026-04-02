@@ -1,14 +1,15 @@
-@import "palette.scss";
+@import "/home/jonathan/.config/eww/wal-colors.scss";
 
 * {
   all: unset;
   font-family: "JetBrainsMono Nerd Font Mono", "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
-  color: $pal-fg;
+  color: $foreground;
 }
 
+/* Dashboard */
 .main-box {
-  background: rgba(14, 18, 24, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba($background, 0.82); 
+  border: 1px solid rgba($foreground, 0.08);
   border-radius: 12px;
   padding: 10px 12px;
   min-width: 360px;
@@ -17,58 +18,45 @@
 .time {
   font-size: 28px;
   font-weight: 600;
-  color: $pal-warning;
+  color: $color3;
   letter-spacing: 0.02em;
 }
 
 .date {
   font-size: 11px;
-  color: $pal-muted;
+  color: $color8;
   margin-top: 1px;
 }
 
 .bat-box {
   font-size: 10px;
   font-weight: 600;
-  color: $pal-success;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: $color4;
+  background: rgba($foreground, 0.04);
+  border: 1px solid rgba($foreground, 0.1);
   padding: 3px 7px;
   border-radius: 7px;
 }
 
 .welcome {
   font-size: 10px;
-  color: $pal-muted;
+  color: $color8;
   margin-left: 8px;
-}
-
-.header-row {
-  margin-bottom: 8px;
-}
-
-.clock-block {
-  margin-right: 10px;
 }
 
 .weather {
   font-size: 11px;
   font-weight: 600;
-  color: $pal-accent-2;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: $color2;
+  background: rgba($foreground, 0.05);
+  border: 1px solid rgba($foreground, 0.1);
   border-radius: 8px;
   padding: 4px 8px;
 }
 
-.stats-row {
-  margin-top: 3px;
-  margin-bottom: 8px;
-}
-
 .stat-card {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba($foreground, 0.06);
+  border: 1px solid rgba($foreground, 0.07);
   border-radius: 8px;
   min-width: 62px;
   padding: 5px 7px;
@@ -76,23 +64,20 @@
 
 .stat-label {
   font-size: 9px;
-  color: $pal-muted;
+  color: $color8;
 }
 
 .stat-value {
   font-size: 12px;
   font-weight: 700;
-  color: #e8edf2;
+  color: $foreground; 
   margin-top: 1px;
 }
 
-.footer-row {
-  margin-top: 2px;
-}
-
+/* Fastfetch */
 .fast-box {
-  background: rgba(14, 18, 24, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba($background, 0.82);
+  border: 1px solid rgba($foreground, 0.08);
   border-radius: 12px;
   min-width: 320px;
   padding: 10px 12px;
@@ -101,31 +86,22 @@
 .ff-title {
   font-size: 10px;
   font-weight: 700;
-  color: $pal-accent-2;
+  color: $color2;
   margin-bottom: 6px;
   letter-spacing: 0.08em;
 }
 
-.ff-line {
-  margin: 3px 0;
-  padding: 1px 5px;
-}
-
-.ff-key-box {
-  margin-right: 6px;
-}
-
-.ff-value-box {
-  min-width: 180px;
-}
-
 .ff-key {
   font-size: 9px;
-  color: $pal-muted;
+  color: $color8;
 }
 
 .ff-value {
   font-size: 10px;
-  color: $pal-fg;
+  color: $foreground;
   font-weight: 600;
+}
+
+.header-row, .stats-row, .stat-card, .ff-line {
+    margin: 4px;
 }

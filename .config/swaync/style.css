@@ -1,500 +1,116 @@
-/* SwayNC theme */
-@import "palette.css";
+/* 
+ * SWAYNC - OPAQUE & COMPACT THEME 
+ */
+
+@import "../../.cache/wal/colors.css";
+
 
 * {
-  font-family: "JetBrainsMono Nerd Font Mono", "JetBrainsMono Nerd Font", monospace;
+  font-family: "JetBrainsMono Nerd Font", sans-serif;
   font-size: 12px;
-  font-weight: 400;
-  transition: 150ms ease;
+  box-shadow: none;
 }
 
-:root {
-  /* Colors */
-  --c-clock:  var(--pal-warning);
-  --c-sys:    var(--pal-muted);
-  --c-audio:  var(--pal-accent);
-  --c-mute:   var(--pal-danger);
-  --c-net:    var(--pal-accent-2);
-  --c-bat:    var(--pal-success);
-  --c-acc:    var(--pal-accent);
-  --c-warn:   var(--pal-warning);
-  --c-crit:   var(--pal-danger);
-  --c-charge: var(--pal-success);
-
-  /* Backgrounds */
-  --cc-bg:               rgba(18, 22, 29, 0.98);
-  --noti-bg:             rgba(22, 27, 35, 0.97);
-  --noti-bg-darker:      rgb(14, 17, 22);
-  --noti-bg-hover:       rgba(36, 42, 52, 1);
-  --noti-bg-focus:       rgba(126, 162, 255, 0.06);
-  --noti-close-bg:       rgba(255, 255, 255, 0.06);
-  --noti-close-bg-hover: rgba(255, 127, 127, 0.22);
-  --noti-border-color:   rgba(255, 255, 255, 0.1);
-  --noti-border-subtle:  rgba(255, 255, 255, 0.05);
-  --bg-widget:           rgba(20, 24, 30, 0.98);
-
-  /* Text */
-  --text-color:          var(--pal-fg);
-  --text-color-dim:      rgba(148, 161, 179, 0.82);
-  --text-color-disabled: #3a4455;
-
-  /* Borders */
-  --border-radius:    10px;
-  --border:           1px solid var(--noti-border-color);
-  --border-subtle:    1px solid var(--noti-border-subtle);
-
-  /* Effects */
-  --notification-shadow:       0 8px 22px rgba(0, 0, 0, 0.3);
-  --hover-transition:          background 0.15s ease-in-out;
-  --group-collapse-transition: opacity 400ms ease-in-out;
-
-  /* Icon sizes */
-  --notification-icon-size:       40px;
-  --notification-app-icon-size:   14px;
-  --notification-group-icon-size: 20px;
+/* Fenêtre principale - FORCE L'OPACITÉ */
+.control-center {
+  background: var(--color0);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 10px;
+  padding: 4px;
+  color: var(--foreground);
 }
 
-/* Windows */
-notificationwindow,
-blankwindow {
+/* Widgets (espacements réduits) */
+.widget {
+  background: rgba(0, 0, 0, 0.25);
+  margin: 4px 8px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Titre & Bouton Effacer */
+.widget-title {
   background: transparent;
 }
-
-.blank-window        { background: transparent; }
-.floating-notifications { background: transparent; }
-
-/* Close button */
-.close-button {
-  background: var(--noti-close-bg);
-  color: var(--text-color-dim);
-  border-radius: 100%;
-  margin-top: 6px;
-  margin-right: 6px;
-  min-width: 20px;
-  min-height: 20px;
-  transition: background 0.15s ease, color 0.15s ease;
+.widget-title > label {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--foreground);
+}
+.widget-title > button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--foreground);
+  padding: 2px 8px;
 }
 
-.close-button:hover {
-  background: var(--noti-close-bg-hover);
-  color: var(--c-crit);
+/* Grille de boutons (4 par ligne pour gagner de la place) */
+.widget-buttons-grid {
+  background: transparent;
+  padding: 0;
+}
+.widget-buttons-grid flowboxchild > button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 3px;
+  min-width: 45px;
+  min-height: 45px;
+  color: var(--foreground);
+}
+.widget-buttons-grid flowboxchild > button:hover {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--foreground);
+}
+.widget-buttons-grid flowboxchild > button.toggle:checked {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--foreground);
 }
 
 /* Notifications */
-.notification-row {
-  background: none;
-  outline: none;
+.notification {
+  background: var(--color0);
+  margin: 4px 0;
+  padding: 8px;
+  border-left: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0%;
 }
-
-.notification-row:focus {
-  background: var(--noti-bg-focus);
-}
-
-.notification-row .notification-background {
-  padding: 3px 8px;
-}
-
-.notification-row .notification-background .notification {
-  padding: 0;
-  background: var(--noti-bg);
-  border: var(--border);
-  border-radius: var(--border-radius);
-  transition: var(--hover-transition);
-}
-
-/* Priority */
-.notification.low      { border-left: none; }
-.notification.normal   { border-left: none; }
-.notification.critical {
-  border-left: none;
-  background: rgba(255, 127, 127, 0.09);
-  border-color: rgba(255, 127, 127, 0.26);
-}
-
-/* Default action */
-.notification-default-action {
-  padding: 6px 8px;
-  background: transparent;
-  border-radius: var(--border-radius);
-  color: var(--text-color);
-  transition: var(--hover-transition);
-}
-
-.notification-default-action:hover {
-  background: var(--noti-bg-hover);
-}
-
-.notification-default-action:not(:only-child) {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-/* Content */
-.notification-content {
-  background: transparent;
-  padding: 2px 4px;
-}
-
-.notification-content .image {
-  -gtk-icon-size: var(--notification-icon-size);
-  border-radius: 0;
-  margin: 6px;
-}
-
-.notification-content .app-icon {
-  -gtk-icon-size: var(--notification-app-icon-size);
-  margin: 4px;
-  opacity: 0.7;
-}
-
 .notification-content .summary {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-color);
+  color: var(--foreground);
+  font-weight: bold;
 }
-
-.notification.critical .summary {
-  color: var(--c-crit);
-}
-
-.notification-content .time {
-  font-size: 10px;
-  color: var(--text-color-dim);
-  margin-right: 16px;
-  opacity: 0.6;
-}
-
 .notification-content .body {
+  color: var(--color8);
   font-size: 11px;
-  color: var(--text-color-dim);
-  line-height: 1.4;
 }
 
-/* Extra actions */
-.notification-alt-actions {
-  background: none;
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-  padding: 4px;
-}
-
-.notification-action {
-  margin: 5px 4px;
-}
-
-.notification-action > button {
-  border-radius: var(--border-radius);
-  color: var(--text-color-dim);
-  background: rgba(255, 255, 255, 0.04);
-  border: var(--border-subtle);
-  padding: 3px 8px;
-  font-size: 11px;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.notification-action > button:hover {
-  background: var(--noti-bg-hover);
-  color: var(--text-color);
-}
-
-/* Progress bar */
-.notification progress,
-.notification trough,
-.notification progressbar {
-  border-radius: 4px;
-  min-height: 3px;
-}
-
-.notification.normal progress   { background: var(--c-net); }
-.notification.critical progress { background: var(--c-crit); }
-.notification.low progress      { background: var(--c-acc); }
-
-/* Groups */
-.notification-group {
-  transition: opacity 200ms ease-in-out;
-}
-
-.notification-group:focus {
-  background: var(--noti-bg-focus);
-}
-
-.notification-group .notification-group-close-button .close-button {
-  margin: 8px 14px;
-}
-
-.notification-group .notification-group-buttons,
-.notification-group .notification-group-headers {
-  margin: 0 10px;
-  color: var(--text-color);
-}
-
-.notification-group .notification-group-headers .notification-group-icon {
-  -gtk-icon-size: var(--notification-group-icon-size);
-}
-
-.notification-group.collapsed.not-expanded {
-  opacity: 0.35;
-}
-
-.notification-group.collapsed .notification-row .notification {
-  background: rgba(24, 28, 34, 1);
-}
-
-.notification-group.collapsed .notification-row:not(:last-child) .notification-action,
-.notification-group.collapsed .notification-row:not(:last-child) .notification-default-action {
-  opacity: 0;
-}
-
-.notification-group.collapsed:hover .notification-row:not(:only-child) .notification {
-  background: var(--noti-bg-hover);
-}
-
-/* Popups */
-.floating-notifications .notification {
-  box-shadow: var(--notification-shadow);
-}
-
-/* Control center */
-.control-center {
-  background: var(--cc-bg);
-  color: var(--text-color);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--border-radius);
-}
-
-.control-center .control-center-list-placeholder {
-  opacity: 0.3;
-}
-
-.control-center .control-center-list {
-  background: transparent;
-}
-
-.control-center .control-center-list .notification {
-  box-shadow: var(--notification-shadow);
-  margin-bottom: 4px;
-}
-
-.control-center .control-center-list .notification-default-action,
-.control-center .control-center-list .notification-action {
-  transition: var(--group-collapse-transition), var(--hover-transition);
-}
-
-.control-center .control-center-list .notification-default-action:hover,
-.control-center .control-center-list .notification-action:hover {
-  background: var(--noti-bg-hover);
-}
-
-.control-center .control-center-list .notification-group,
-.control-center .control-center-list .notification-group .notification-row,
-.control-center .control-center-list .notification-group .notification-background {
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-}
-
-/* Widgets */
-.widget {
-  margin: 4px;
-  padding: 8px 10px;
-  border-radius: var(--border-radius);
-  background: rgba(255, 255, 255, 0.07);
-  border: var(--border-subtle);
-}
-
-/* Title */
-.widget-title > label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--c-acc);
-  margin-right: 6px;
-  letter-spacing: 0.03em;
-}
-
-.widget-title > button {
-  border-radius: 8px;
-  color: var(--text-color-dim);
-  background: rgba(255, 255, 255, 0.03);
-  border: var(--border-subtle);
-  padding: 2px 8px;
-  font-size: 11px;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.widget-title > button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-color);
-}
-
-/* DND */
-.widget-dnd label {
-  color: var(--c-net);
-  margin-right: 8px;
-  font-size: 11px;
-  opacity: 0.9;
-}
-
-.widget-dnd switch {
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: var(--border-subtle);
-}
-
-.widget-dnd switch:checked {
-  background: rgba(255, 209, 102, 0.18);
-}
-
-.widget-dnd switch slider {
-  border-radius: 8px;
-  background: var(--c-acc);
-}
-
-/* Buttons grid */
-.widget-buttons-grid flowboxchild > button {
-  min-width: 36px;
-  min-height: 36px;
-  padding: 5px;
-  border-radius: 8px;
-  border: var(--border-subtle);
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-color);
-  transition: background 0.15s ease, transform 0.1s ease, filter 0.15s ease;
-}
-
-.widget-buttons-grid flowboxchild {
-  margin: 6px;
-}
-
-.widget-buttons-grid {
-  margin: 4px 2px 6px 2px;
-}
-
-.widget-buttons-grid flowboxchild > button:active {
-  transform: scale(0.86);
-}
-
-.widget-buttons-grid flowboxchild > button.toggle:checked {
-  border-color: rgba(159, 183, 255, 0.25);
-  background: rgba(159, 183, 255, 0.12);
-}
-
-.widget-buttons-grid flowboxchild > button label {
-  font-size: 1rem;
-  color: inherit;
-  margin: 0;
-  padding: 0;
-}
-
-/* Button colors */
-.widget-buttons-grid flowboxchild:nth-child(1) > button {
-  color: var(--c-audio);
-  background: rgba(248, 163, 255, 0.05);
-}
-.widget-buttons-grid flowboxchild:nth-child(2) > button {
-  color: var(--c-mute);
-  background: rgba(255, 143, 143, 0.05);
-}
-.widget-buttons-grid flowboxchild:nth-child(3) > button,
-.widget-buttons-grid flowboxchild:nth-child(4) > button {
-  color: var(--c-net);
-  background: rgba(120, 230, 255, 0.05);
-}
-.widget-buttons-grid flowboxchild:nth-child(5) > button {
-  color: var(--c-acc);
-  background: rgba(126, 162, 255, 0.05);
-}
-.widget-buttons-grid flowboxchild:nth-child(6) > button {
-  color: var(--c-clock);
-  background: rgba(255, 224, 130, 0.05);
-}
-.widget-buttons-grid flowboxchild:nth-child(7) > button {
-  color: var(--c-sys);
-  background: rgba(255, 179, 167, 0.05);
-}
-.widget-buttons-grid flowboxchild:nth-child(8) > button {
-  color: var(--c-warn);
-  background: rgba(255, 209, 102, 0.05);
-}
-.widget-buttons-grid flowboxchild:nth-child(9) > button {
-  color: var(--c-crit);
-  background: rgba(255, 127, 127, 0.07);
-}
-
-.widget-buttons-grid flowboxchild > button:hover {
-  filter: brightness(1.28);
-}
-
-/* MPRIS */
+/* MPRIS (Lecteur musique) */
 .widget-mpris {
-  padding: 0;
+  padding: 6px;
 }
-
-.widget-mpris .widget-mpris-player {
-  border-radius: var(--border-radius);
-  background: rgba(20, 24, 30, 0.90);
-  margin: 3px 5px;
+.widget-mpris-player {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 8px;
 }
-
-.widget-mpris .widget-mpris-player .mpris-overlay {
-  padding: 6px 10px;
-  background-color: rgba(0, 0, 0, 0.25);
-}
-
-.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-album-art {
-  opacity: 0;
-  min-width: 0;
-  min-height: 0;
-  -gtk-icon-size: 0px;
-}
-
-.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-color);
-}
-
-.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-subtitle {
-  font-size: 10px;
-  color: var(--text-color-dim);
-}
-
-.widget-mpris .widget-mpris-player .mpris-overlay > box > button {
-  color: var(--text-color-dim);
-  border-radius: 8px;
-  min-width: 22px;
-  min-height: 22px;
-  padding: 2px;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.widget-mpris .widget-mpris-player .mpris-overlay > box > button:hover {
-  background: rgba(126, 162, 255, 0.12);
-  color: var(--text-color);
-}
-
-/* Hidden scrollbar */
-scrollbar,
-scrollbar * {
-  background: transparent;
-  border: none;
-  opacity: 0;
-  min-width: 0;
-  min-height: 0;
+.widget-mpris-title {
+  font-weight: bold;
+  color: var(--foreground);
 }
 
 /* Sliders */
-scale slider {
-  min-height: 8px;
-  min-width: 8px;
-}
-
 scale trough {
-  background: rgba(255, 255, 255, 0.08);
-  min-height: 4px;
-  border-radius: 0;
+  background: rgba(255, 255, 255, 0.06);
+  min-height: 6px;
+}
+scale highlight {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-scale trough highlight {
-  background: linear-gradient(90deg, var(--c-acc), var(--c-net));
-  border-radius: 0;
+/* Masquer scrollbar */
+scrollbar, scrollbar * {
+  background: transparent;
+  min-width: 0;
+  min-height: 0;
 }

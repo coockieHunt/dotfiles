@@ -8,6 +8,18 @@ if [[ -z "${BAT:-}" ]]; then
   exit 0
 fi
 
+if [[ -r "$HOME/.cache/wal/colors.sh" ]]; then
+  FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS-}"
+  LS_COLORS="${LS_COLORS-}"
+  set +u
+  . "$HOME/.cache/wal/colors.sh"
+  set -u
+fi
+
+wb_fg="${foreground:-#E8EDF2}"
+wb_mode_eco="#22c55e"
+wb_mode_nomade="#f59e0b"
+
 read_num() {
   local f="$1"
   [[ -r "$f" ]] && cat "$f" || echo ""
@@ -71,13 +83,13 @@ mode_class="nomode"
 mode_icon=""
 if [[ -n "$start_threshold" && -n "$end_threshold" ]]; then
   if (( end_threshold >= 95 )); then
-    mode_label="MOB"
-    mode_class="mobile"
-    mode_icon=""
+    mode_label="NOMADE"
+    mode_class="nomade"
+    mode_icon=$'\uf554'
   else
     mode_label="ECO"
     mode_class="eco"
-    mode_icon=""
+    mode_icon="󰌪"
   fi
 fi
 
@@ -89,12 +101,40 @@ if [[ "$class" == "discharging" && -n "$capacity" ]]; then
   fi
 fi
 
-text="<span size='130%'>$mode_icon</span> ${capacity:-?}% $label"
-if [[ -n "$watts" ]]; then
-  text="$text ${watts}W"
+level_class="level-unknown"
+if [[ -n "$capacity" ]]; then
+  level_bucket=$(( capacity / 10 * 10 ))
+  if (( level_bucket > 100 )); then
+    level_bucket=100
+  fi
+  level_class="level-${level_bucket}"
 fi
 
-class_json=$(printf '["%s","%s","charge-%s"]' "$class" "$mode_class" "$mode_class")
+mode_color="$wb_fg"
+if [[ "$mode_class" == "eco" ]]; then
+  mode_color="$wb_mode_eco"
+elif [[ "$mode_class" == "nomade" ]]; then
+  mode_color="$wb_mode_nomade"
+fi
+
+pct_color="$wb_fg"
+if [[ -n "$capacity" ]]; then
+  cap_clamped=$capacity
+  if (( cap_clamped < 0 )); then
+    cap_clamped=0
+  elif (( cap_clamped > 100 )); then
+    cap_clamped=100
+  fi
+
+  r=$(( 239 + (34 - 239) * cap_clamped / 100 ))
+  g=$(( 68 + (197 - 68) * cap_clamped / 100 ))
+  b=$(( 68 + (94 - 68) * cap_clamped / 100 ))
+  pct_color=$(printf '#%02x%02x%02x' "$r" "$g" "$b")
+fi
+
+text="<span size='120%' foreground='$mode_color'>$mode_icon</span> <span foreground='$pct_color'>${capacity:-?}%</span>"
+
+class_json=$(printf '["%s","%s","charge-%s","%s"]' "$class" "$mode_class" "$mode_class" "$level_class")
 
 tooltip="Etat: $label\nMode charge: $mode_label"
 if [[ -n "$capacity" ]]; then
@@ -107,7 +147,6 @@ if [[ -n "$start_threshold" && -n "$end_threshold" ]]; then
   tooltip="$tooltip\nSeuils: ${start_threshold}-${end_threshold}%"
 fi
 
-# Escape potential quotes/newlines safely for JSON output.
 text_escaped=${text//\"/\\\"}
 tooltip_escaped=${tooltip//$'\n'/\\n}
 tooltip_escaped=${tooltip_escaped//\"/\\\"}

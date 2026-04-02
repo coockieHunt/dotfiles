@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Step brightness while snapping to 10% boundaries.
-# Usage: brightness-step.sh up|down
 
 dir="$1"
 max=$(brightnessctl m)

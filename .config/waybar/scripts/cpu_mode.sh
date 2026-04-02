@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# Current TLP profile
 PROFILE=$(tlp-stat -s 2>/dev/null | awk -F'= ' '/Power profile/{print $2; exit}' | cut -d'/' -f1 | tr -d '[:space:]')
 [ -z "$PROFILE" ] && PROFILE="unknown"
 
@@ -8,7 +7,6 @@ run_privileged() {
     if [ "$(id -u)" -eq 0 ]; then
         "$@"
     elif command -v pkexec >/dev/null 2>&1; then
-        # Avoid terminal prompt fallback; require a graphical auth agent.
         if command -v timeout >/dev/null 2>&1; then
             timeout 12 pkexec --disable-internal-agent "$@"
         else
@@ -21,7 +19,6 @@ run_privileged() {
     fi
 }
 
-# Toggle TLP profile on CPU click
 if [ "$1" == "click-left" ] || [ "$1" == "click-cpu" ]; then
     if [[ "$PROFILE" == "performance" ]]; then
         TARGET="balanced"
@@ -30,7 +27,6 @@ if [ "$1" == "click-left" ] || [ "$1" == "click-cpu" ]; then
     fi
 
     if run_privileged /usr/bin/tlp "$TARGET" ac; then
-        # Force immediate visual refresh.
         pkill -SIGUSR2 waybar 2>/dev/null || pkill -RTMIN+8 waybar 2>/dev/null || true
         exit 0
     elif command -v powerprofilesctl >/dev/null 2>&1 && powerprofilesctl set "$TARGET" >/dev/null 2>&1; then
@@ -43,7 +39,6 @@ if [ "$1" == "click-left" ] || [ "$1" == "click-cpu" ]; then
     fi
 fi
 
-# Toggle battery charge thresholds
 if [ "$1" == "click-right" ] || [ "$1" == "click-charge" ]; then
     START_FILE="/sys/class/power_supply/BAT0/charge_control_start_threshold"
     END_FILE="/sys/class/power_supply/BAT0/charge_control_end_threshold"
@@ -76,7 +71,6 @@ if [ "$1" == "click-right" ] || [ "$1" == "click-charge" ]; then
     fi
 fi
 
-# Average CPU frequency (MHz -> GHz, 1 decimal)
 FREQ_TOTAL=0
 CPU_COUNT=$(nproc)
 FREQ_FILES=(/sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq)
@@ -89,11 +83,9 @@ else
     FREQ_GHZ="N/A"
 fi
 
-# CPU temperature (Tdie or Tctl)
 TEMP_CPU=$(sensors 2>/dev/null | grep -E "Tdie|Tctl" | awk 'NR==1{print $2}' | tr -d '+')
 [ -z "$TEMP_CPU" ] && TEMP_CPU="N/A"
 
-# Compact display
 if [ "$FREQ_GHZ" = "N/A" ]; then
     FREQ_DISPLAY="N/A"
 else

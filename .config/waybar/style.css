@@ -1,33 +1,38 @@
-@import "palette.css";
+/* Import direct du cache Wallust/Pywal */
+@import "../../.cache/wal/colors-waybar.css";
 
 * {
-  font-family: "JetBrainsMono Nerd Font Mono", "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
+  font-family: "JetBrainsMono Nerd Font Mono", "JetBrains Mono", monospace;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   border: none;
-  border-radius: 8px;
+  border-radius: 3px;
   min-height: 0;
 }
 
 window#waybar {
   background: transparent;
-  color: @wb-fg;
+  color: @foreground;
 }
 
 tooltip {
-  background: rgba(18, 22, 30, 0.92);
-  color: @wb-fg;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  background: rgba(14, 18, 26, 0.94);
+  color: @foreground;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
 }
 
 .modules-left,
 .modules-right {
   background: rgba(12, 16, 22, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 12px;
+  border: 0.5px solid rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
   margin: 2px 6px 1px 6px;
-  padding: 1px 6px;
+  padding: 2px 8px;
+}
+
+.modules-left {
+  padding-left: 3px;
 }
 
 .modules-center {
@@ -39,6 +44,9 @@ tooltip {
 
 #workspaces,
 #clock,
+#custom-wsl,
+#custom-wallpaper,
+#custom-launcher,
 #custom-sysinfo,
 #custom-cpu_mode,
 #custom-brightness,
@@ -48,186 +56,173 @@ tooltip {
 #custom-powerquick,
 #custom-control-center,
 #tray {
-  color: #dfe6ee;
-  padding: 1px 8px;
-  margin: 0px 2px;
-  border-radius: 8px;
-  transition: all 0.18s ease;
+  padding: 2px 8px;
+  margin: 0 2px;
+  border-radius: 3px;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+#workspaces {
+  margin-left: 0;
+  padding-left: 0;
 }
 
 #workspaces button {
-  color: @wb-muted;
+  color: @color7; 
   background: transparent;
-  border-radius: 8px;
-  padding: 0 8px;
-  margin: 1px 2px;
+  border-radius: 3px;
+  margin: 1px 1px 1px 0;
+  padding: 2px 7px;
+  transition: all 0.15s ease;
 }
 
 #workspaces button:hover {
   color: #ffffff;
-  background: alpha(@wb-accent, 0.16);
+  background: alpha(@color2, 0.14); 
 }
 
 #workspaces button.active {
   color: #f6f9ff;
-  background: linear-gradient(120deg, alpha(@wb-accent, 0.45), alpha(@wb-accent-2, 0.35));
+  background: alpha(@color2, 0.28); 
 }
 
 #clock {
-  color: #ffe082;
-  letter-spacing: 0.04em;
-}
-
-#custom-sysinfo {
-  color: #ffb3a7;
-}
-
-#custom-cpu_mode {
-  color: @wb-accent;
-  background: alpha(@wb-accent, 0.14);
-}
-
-#custom-cpu_mode.performance {
-  color: #ff9f7f;
-  background: rgba(255, 159, 127, 0.16);
-}
-
-#custom-cpu_mode.balanced {
-  color: #7fffd4;
-  background: rgba(127, 255, 212, 0.14);
-}
-
-#custom-cpu_mode.unknown {
-  color: #c4cbd6;
-  background: rgba(196, 203, 214, 0.12);
-}
-
-#pulseaudio {
-  color: #f8a3ff;
-}
-
-#custom-brightness {
-  color: #ffd479;
-  background: rgba(255, 212, 121, 0.14);
-  margin: 1px 4px;
-}
-
-#pulseaudio.muted {
-  color: #ff8f8f;
-}
-
-#network {
-  color: @wb-accent-2;
-}
-
-#network.disconnected {
-  color: #ff8f8f;
-}
-
-#custom-battery {
-  color: @wb-success;
-}
-
-#custom-battery.warning {
-  color: @wb-warning;
-}
-
-#custom-battery.critical {
-  color: @wb-danger;
-}
-
-#custom-battery.charging {
-  color: #7fffd4;
-}
-
-#custom-battery.eco {
-  background: rgba(157, 243, 176, 0.14);
-}
-
-#custom-battery.mobile {
-  color: #ff9f7f;
-  background: rgba(255, 159, 127, 0.16);
-}
-
-#custom-battery.charge-eco {
-  background: rgba(127, 255, 212, 0.20);
-}
-
-#custom-battery.charge-mobile {
-  color: #ff9f7f;
-  background: rgba(255, 159, 127, 0.22);
-}
-
-#custom-control-center {
-  color: @wb-accent-2;
-  background: linear-gradient(120deg, alpha(@wb-accent, 0.16), alpha(@wb-accent-2, 0.14));
-  border: 1px solid alpha(@wb-accent, 0.22);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 1px 8px;
-}
-
-#custom-powerquick {
-  color: @wb-danger;
-  background: alpha(@wb-danger, 0.16);
-  border: 1px solid alpha(@wb-danger, 0.24);
-  font-size: 12px;
-  font-weight: 700;
-  padding: 1px 8px;
-}
-
-#custom-powerquick:hover {
-  background: alpha(@wb-danger, 0.26);
-  border-color: alpha(@wb-danger, 0.34);
-  color: #ffffff;
-}
-
-#custom-control-center.none {
-  color: @wb-success;
-  background: alpha(@wb-success, 0.16);
-  border: 1px solid alpha(@wb-success, 0.24);
-}
-
-#custom-control-center.notification {
-  color: @wb-accent-2;
-  background: alpha(@wb-accent-2, 0.18);
-  border: 1px solid alpha(@wb-accent-2, 0.24);
-}
-
-#custom-control-center.dnd-none,
-#custom-control-center.dnd-notification {
-  color: @wb-warning;
-  background: alpha(@wb-warning, 0.18);
-  border: 1px solid alpha(@wb-warning, 0.26);
-}
-
-#custom-sysinfo,
-#custom-cpu_mode,
-#pulseaudio,
-#network,
-#custom-battery {
-  padding-top: 1px;
-  padding-bottom: 1px;
+  letter-spacing: 0.03em;
 }
 
 #custom-control-center:hover,
 #pulseaudio:hover,
 #network:hover,
 #custom-battery:hover,
+#custom-wsl:hover,
 #custom-cpu_mode:hover,
 #custom-brightness:hover,
 #custom-sysinfo:hover,
 #clock:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
 }
 
-#custom-control-center:hover {
-  background: linear-gradient(120deg, alpha(@wb-accent, 0.24), alpha(@wb-accent-2, 0.22));
-  border-color: alpha(@wb-accent-2, 0.32);
+#custom-wsl {
+  font-weight: 600;
+}
+
+#custom-wsl.connected,
+#custom-wsl.connected label {
+  color: #7fd38a;
+}
+
+#custom-wsl.trying,
+#custom-wsl.trying label {
+  color: #f1c96b;
+}
+
+#custom-wsl.failed,
+#custom-wsl.failed label,
+#custom-wsl.unmounted,
+#custom-wsl.unmounted label {
+  color: #ff7a7a;
+}
+
+#custom-control-center {
+  color: @color2; 
+  font-size: 15px;
+  font-weight: 600;
+}
+
+#custom-control-center.none {
+  color: @color4;
+}
+
+#custom-control-center.notification {
+  color: @color2;
+}
+
+#custom-control-center.dnd-none,
+#custom-control-center.dnd-notification {
+  color: @color3; 
+}
+
+#custom-powerquick {
+  color: @color5; 
+  background: transparent;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 10px;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+#custom-powerquick:hover {
+  background: alpha(@color5, 0.2);
+  color: #ffffff;
+}
+
+#custom-launcher,
+#custom-wallpaper {
+  color: @color2; 
+  padding: 2px 10px 2px 6px;
+  margin-right: 2px;
+}
+
+#custom-launcher:hover,
+#custom-wallpaper:hover {
+  background: alpha(@color1, 0.15); 
   color: #ffffff;
 }
 
 #tray {
   padding-right: 4px;
+}
+
+#custom-battery {
+  font-weight: 700;
+}
+
+#custom-battery.eco {
+  color: @color4;
+}
+
+#custom-battery.nomade {
+  color: @color2;
+}
+
+#custom-battery.charging,
+#custom-battery.full {
+  color: @color6;
+}
+
+#custom-battery.warning {
+  color: @color3;
+}
+
+#custom-battery.critical {
+  color: @color5;
+  background: alpha(@color5, 0.15);
+}
+
+#custom-battery.level-100,
+#custom-battery.level-90 {
+  color: @color6;
+}
+
+#custom-battery.level-80,
+#custom-battery.level-70 {
+  color: @color4;
+}
+
+#custom-battery.level-60,
+#custom-battery.level-50 {
+  color: @foreground;
+}
+
+#custom-battery.level-40,
+#custom-battery.level-30 {
+  color: @color3;
+}
+
+#custom-battery.level-20,
+#custom-battery.level-10,
+#custom-battery.level-0 {
+  color: @color5;
 }

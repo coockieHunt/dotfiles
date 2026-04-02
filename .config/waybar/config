@@ -1,24 +1,26 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 24,
+  "height": 37,
   "spacing": 0,
   "exclusive": true,
   "fixed-center": true,
   "modules-left": [
     "hyprland/workspaces",
-    "clock"
+    "clock",
+    "custom/wsl",
+    "custom/wallpaper",
+    "custom/launcher"
   ],
   "modules-center": [],
   "modules-right": [
     "custom/sysinfo",
-    "custom/cpu_mode",
     "custom/brightness",
+    "custom/battery",
     "pulseaudio",
     "network",
-    "custom/battery",
-    "custom/control-center",
     "tray",
+    "custom/control-center",
     "custom/powerquick"
   ],
   "hyprland/workspaces": {
@@ -35,32 +37,31 @@
     "interval": 1
   },
   "custom/sysinfo": {
-    "exec": "~/.config/waybar/sysinfo.sh",
+    "exec": "~/.config/waybar/scripts/sysinfo.sh",
     "escape": false,
     "interval": 2,
-    "tooltip": false,
-    "on-click": "pypr toggle system"
-  },
-  "custom/cpu_mode": {
-    "exec": "~/.config/waybar/cpu_mode.sh",
-    "return-type": "json",
-    "format": "{text}",
-    "escape": false,
-    "interval": 2,
-    "tooltip": false,
     "on-click": "pypr toggle system",
-    "on-click-right": "~/.config/waybar/cpu_mode.sh click-cpu"
+    "on-click-right": "~/.config/waybar/scripts/cpu_mode.sh click-right",
+    "return-type": "json"
   },
+"custom/cpu_mode": {
+  "exec": "~/.config/waybar/scripts/cpu_mode.sh",
+  "return-type": "json",
+  "format": "{}",
+  "interval": 5,
+  "on-click": "pypr toggle perf" 
+},
   "custom/brightness": {
-    "exec": "~/.config/waybar/brightness-status.sh",
+    "exec": "~/.config/waybar/scripts/brightness-status.sh",
     "interval": 2,
-    "tooltip": false,
-    "on-click": "~/.config/waybar/brightness-step.sh down",
-    "on-click-right": "~/.config/waybar/brightness-step.sh up"
+    "on-click": "~/.config/waybar/scripts/brightness-step.sh down",
+    "on-click-right": "~/.config/waybar/scripts/brightness-step.sh up",
+    "escape": false,
+    "return-type": "json"
   },
   "pulseaudio": {
-    "format": "<span size='140%'></span> {volume}%",
-    "format-muted": "<span size='140%'></span> MUTE",
+    "format": "<span size='140%' foreground='#f8a3ff'>󰕾</span> {volume}%",
+    "format-muted": "<span size='140%' foreground='#ff8f8f'>󰖁</span> MUTE",
     "on-click": "pypr toggle volume",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +2%",
@@ -68,47 +69,65 @@
     "tooltip": false
   },
   "network": {
-    "format-wifi": "<span size='140%'></span> {signalStrength}%",
-    "format-ethernet": "<span size='140%'></span> ETH",
-    "format-disconnected": "<span size='140%'></span> NO NET",
+    "format-wifi": "<span size='140%' foreground='#88c4ff'>󰤨</span> {signalStrength}%",
+    "format-ethernet": "<span size='140%' foreground='#88c4ff'>󰈀</span> ETH",
+    "format-disconnected": "<span size='140%' foreground='#ff8f8f'>󰤭</span> NO NET",
     "tooltip-format-wifi": "{essid} — {signalStrength}%\n{ipaddr}",
     "tooltip-format-ethernet": "{ifname}\n{ipaddr}",
     "on-click": "pypr toggle wifi",
     "interval": 10
   },
+  "custom/wsl": {
+    "exec": "~/.local/bin/wsl-mount status",
+    "return-type": "json",
+    "interval": 10,
+    "signal": 8,
+    "on-click": "~/.local/bin/wsl-mount toggle",
+    "tooltip": true
+  },
   "custom/battery": {
-    "exec": "~/.config/waybar/battery-status.sh",
+    "exec": "~/.config/waybar/scripts/battery-status.sh",
     "return-type": "json",
     "escape": false,
     "interval": 10,
-    "on-click": "~/.config/waybar/open-battery-settings.sh",
-    "on-click-right": "~/.config/waybar/cpu_mode.sh click-charge"
+    "on-click": "~/.config/waybar/scripts/open-battery-settings.sh",
+    "on-click-right": "~/.config/waybar/scripts/cpu_mode.sh click-charge"
   },
   "custom/control-center": {
     "exec": "swaync-client -swb",
     "return-type": "json",
     "format": "{icon}",
     "format-icons": {
-      "none": "",
-      "notification": "",
-      "dnd-none": "",
-      "dnd-notification": ""
+      "none": "󰍢",
+      "notification": "󱅫",
+      "dnd-none": "󰂛",
+      "dnd-notification": "󰂞"
     },
     "on-click": "sh -c 'pgrep -x swaync >/dev/null || (swaync >/dev/null 2>&1 & sleep 0.3); swaync-client -t'",
     "on-click-right": "swaync-client -d",
     "on-click-middle": "swaync-client -C"
   },
   "custom/powerquick": {
-    "format": "⏻",
-    "tooltip": true,
-    "tooltip-format": "Left click: Logout\nRight click: Shutdown",
-    "on-click": "bash ~/.config/waybar/power-quick.sh logout",
-    "on-click-right": "bash ~/.config/waybar/power-quick.sh shutdown",
-    "on-click-middle": "bash ~/.config/waybar/power-quick.sh reboot"
+      "format": "⏻",
+      "tooltip": false,
+      "on-click": "bash ~/.config/rofi/powermenu/powermenu.sh ",
+      "on-click-right": ""
   },
   "tray": {
     "icon-size": 20,
     "spacing": 10,
     "show-passive-items": true
+  },
+  "custom/launcher": {
+    "format": "<span size=\"140%\">󰣇</span>",
+    "escape": false,
+    "on-click": "fuzzel",
+    "tooltip": false
+  },
+  "custom/wallpaper": {
+    "format": "<span size=\"140%\">󰸉</span>",
+    "escape": false,
+    "on-click": "~/.config/waybar/scripts/walpaper-change.sh",
+    "tooltip": false
   }
 }
