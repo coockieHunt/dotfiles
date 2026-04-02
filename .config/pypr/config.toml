@@ -1,0 +1,42 @@
+[pyprland]
+plugins = ["scratchpads"]
+
+[scratchpads.term]
+command = "kitty --class scratchpad"
+class = "scratchpad"
+size = "75% 60%"
+position = "13% 20%"
+ 
+[scratchpads.batctl]
+command = "kitty --class scratchpad_bat -e batctl"
+class = "scratchpad_bat"
+size = "75% 60%"
+position = "13% 20%"
+
+[scratchpads.volume]
+command = "pavucontrol"
+class = "org.pulseaudio.pavucontrol"
+size = "58% 62%"
+position = "21% 18%"
+pinned = true
+lazy = true
+close_on_hide = true
+
+[scratchpads.system]
+command = "gnome-system-monitor"
+class = "org.gnome.SystemMonitor"
+size = "85% 85%"
+position = "7% 7%"
+pinned = true
+lazy = true
+close_on_hide = true
+
+[scratchpads.wifi]
+command = "nm-connection-editor"
+class = "nm-connection-editor"
+size = "50% 60%"
+position = "25% 20%"
+pinned = true
+lazy = true
+close_on_hide = true
+
