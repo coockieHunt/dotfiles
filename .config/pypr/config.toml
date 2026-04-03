@@ -1,5 +1,10 @@
 [pyprland]
-plugins = ["scratchpads"]
+plugins = [
+    "scratchpads",
+    "lost_windows"
+]
+
+[lost_windows]
 
 [scratchpads.term]
 command = "kitty --class scratchpad"
